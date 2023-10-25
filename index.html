@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css">
+    <title>ToDo App</title>
+  </head>
+  <body>
+    <div class="app-wrapper">
+      <div id="app">
+        <p class="auth margin10">Login</p>
+        <input type="text" name="login" id="login" class="auth margin10">
+        
+        <p class="auth margin10">Password</p>
+        <input type="password" name="pass" id="pass" class="auth margin10">
+
+        <div class="wrapper-repeat" id="repeat-pass" style="display: none;">
+          <p class="auth margin10">Repeat Password</p>
+          <input type="password" name="repeat-pass" id="repeat-pass-input" class="auth margin10">
+        </div>
+        
+        <div class="btn-wrapper">
+          <button id="loginBtn" class="btn" onclick="loginUser()">Log In</button>
+          <button id="joinBtn" class="btn" onclick="joinUser()">Join</button>
+          <button id="registerBtn" class="btn" onclick="registerUser()" style="display: none;">Register</button>
+        </div>
+      </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="index.js"></script>
+  </body>
+</html>
