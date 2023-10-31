@@ -89,7 +89,51 @@ function renderTasks(username, password, userIndex) {
     let tasksLine =  `
         <div>Tasks:</div>
         <div>------------------</div>`
+    
+
+    let downloadBtn = $("<button>Download XML</button>")
+
+    downloadBtn.on("click", () => {
+        $(data).find("users").empty()
+        let allUsers = $(data).find("users")
+        for (let i = 0; i < objectData.length; i++) {
+            let currentUser = $("<user></user>")
+
+            $(currentUser).append(`<username>${objectData[i]["username"]}</username>`)
+            $(currentUser).append(`<password>${objectData[i]["password"]}</password>`)
+
+            let currentTodos = $("<todos></todos>")
+            for (let note of objectData[i]["notes"]) {
+                let currentNote = $("<note></note>")
+                $(currentNote).append(`<title>${note["title"]}</title>`)
+                $(currentNote).append(`<priority>${note["priority"]}</priority>`)
+                $(currentNote).append(`<order>${note["order"]}</order>`)
+                $(currentNote).append(`<completed>${note["completed"]}</completed>`)
+                
+                $(currentTodos).append(currentNote)
+            }
             
+            $(currentUser).append(currentTodos)
+
+            $(allUsers).append(currentUser)
+        }
+        
+        const serializer = new XMLSerializer()
+        const xmlStringToWrite = serializer.serializeToString(data)
+
+        const blob = new Blob([xmlStringToWrite], {type: "text/xml"})
+        const url = URL.createObjectURL(blob)
+
+        const a = document.createElement('a')
+        a.href = url
+        a.download = 'data.xml'
+        a.textContent = 'Download XML'
+
+        document.body.appendChild(a)
+
+        a.click()
+    })
+
     let finalString = getTaskString(objectData, userIndex)
 
     $(".app-wrapper").css("display", "none")
@@ -97,6 +141,7 @@ function renderTasks(username, password, userIndex) {
     $(body).prepend(tasksLine)
     $(body).prepend(addButton)
     $(body).prepend(addField)
+    $(body).prepend(downloadBtn)
     $(".input-add").css("margin-bottom", "10px")
     $(body).prepend(startString)
 
