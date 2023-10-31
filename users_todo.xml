@@ -1,0 +1,44 @@
+<users>
+    <user>
+        <username>kilo</username>
+        <password>f9964f9e77ff6174a47456819ca46ef6c99b9474</password>
+        <todos>
+            <note>
+                <title>Make dinner</title>
+                <priority>Medium</priority>
+                <order>2</order>
+                <completed>false</completed>
+            </note>
+            <note>
+                <title>Make love</title>
+                <priority>High</priority>
+                <order>1</order>
+                <completed>true</completed>
+            </note>
+            <note>
+                <title>Do Work</title>
+                <priority>Low</priority>
+                <order>3</order>
+                <completed>false</completed>
+            </note>
+            <note>
+                <title>Make a baby</title>
+                <priority>Lowest</priority>
+                <order>never</order>
+                <completed>true</completed>
+            </note>
+        </todos>
+    </user>
+    <user>
+        <username>jimmy</username>
+        <password>10108e7d3b88c53c5062a635b4c128d7603c94f8</password>
+        <todos>
+            <note>
+                <title>Go to gym</title>
+                <priority>High</priority>
+                <order>4</order>
+                <completed>false</completed>
+            </note>
+        </todos>
+    </user>
+</users>

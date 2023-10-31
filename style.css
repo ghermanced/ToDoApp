@@ -41,3 +41,12 @@ button:hover {
 .hide {
     display: none;
 }
+
+.task-checkbox:checked ~ .task-div {
+    color: gray;
+    text-decoration: line-through;
+}
+
+#add-task-wrapper {
+    margin-bottom: 10px;
+}
