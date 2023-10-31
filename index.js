@@ -14,30 +14,91 @@ var users = []
 const parser = new DOMParser()
 
 
-class Task {
-    constructor(title, priority, isCompleted=false) {
-        this.title = title
-        this.priority = priority
-        this.isCompleted = isCompleted
-        this.creationData = new Date().toDateString()
-    }
+function getTaskString(data, userIndex) {
+    let finalString = ``
+    for (let taskIndex = 0; taskIndex < data[userIndex]["notes"].length; taskIndex++) {
 
-    deleteTask() {
+        let currentTask = data[userIndex]["notes"][taskIndex]
+        let currentTitle = currentTask["title"]
+        let currentPriority = currentTask["priority"]
+        let currentOrder = currentTask["order"]
+        let taskIsCompleted = currentTask["completed"]
 
+        finalString = finalString + `
+            <div class="task-div-${taskIndex}" class="task-div"">
+                <div>Title: ${currentTitle}</div>
+                <div>Priority: ${currentPriority}</div>
+                <div>Order: ${currentOrder}</div>
+                <div>Creation Data: ${new Date().toDateString()}</div>
+                <div>Completed 
+                    <input type="checkbox" id="checkbox-${taskIndex}" class="task-checkbox" ${taskIsCompleted ? 'checked' : ''}/></div>
+                <div>----------------</div>
+            </div>
+        `
     }
+    return finalString
+}
 
-    completeTask() {
-        this.isCompleted = !this.isCompleted
-    }
 
-    editTask(title, priority) {
-        this.title = title
-        this.priority = priority
-    }
+function renderTasks(username, password, userIndex) {
 
-    getCreationData() {
-        return this.creationData
-    }
+    $(body).empty()
+
+    let startString = `
+        <div id="user-info-wrapper">
+            <div>Username: ${username}</div>
+            <div>Hashed Password: ${password}</div>
+        </div>`
+    
+    var addButton = $("<button>Add Task</button>")
+
+    addButton.on("click", () => {
+        let inputTitle = $("#input-title").val()
+        let inputPriority = $("#input-priority").val()
+        let inputCompleted = $("#input-completed").is(":checked")
+        let inputOrder = $("#input-order").val()
+
+        let notesArr = objectData[userIndex]["notes"]
+        notesArr.push({
+            "title": inputTitle,
+            "priority": inputPriority,
+            "order": inputOrder,
+            "completed": inputCompleted,
+        })
+
+        objectData[userIndex]["notes"] = notesArr
+        renderTasks(username, password, userIndex)
+    })
+    
+    let addField = `
+        <div id="add-task-wrapper">
+            <p>Title</p>
+            <input class="input-add" id="input-title" type="text">
+            <p>Priority</p>
+            <select class="input-add" id="input-priority">
+                <option selected>Low</option>
+                <option>Medium</option>
+                <option>High</option>
+            </select>
+            <p>Completed</p>
+            <input class="input-add" id="input-completed" type="checkbox">
+            <p>Order</p>
+            <input class="input-add" id="input-order" type="text" required>
+        </div>`
+
+    let tasksLine =  `
+        <div>Tasks:</div>
+        <div>------------------</div>`
+            
+    let finalString = getTaskString(objectData, userIndex)
+
+    $(".app-wrapper").css("display", "none")
+    $(body).prepend(finalString)
+    $(body).prepend(tasksLine)
+    $(body).prepend(addButton)
+    $(body).prepend(addField)
+    $(".input-add").css("margin-bottom", "10px")
+    $(body).prepend(startString)
 
 }
 
@@ -64,82 +125,25 @@ async function loginUser() {
         if (users.includes(username)) {
             let hashedPass = await hashPass(passInput.val()).then((val) => val)
 
-
+            let userIndex = -Infinity
             for (let i = 0; i < objectData.length; i++) {
                 let currentUser = objectData[i]["username"]
                 let currentPass = objectData[i]["password"]
 
                 if (currentUser == username) {
                     if (currentPass == hashedPass) {
-                        console.log("Logged In")
-                        let startString = `
-                            <div id="user-info-wrapper">
-                                <div>Username: ${username}</div>
-                                <div>Hashed Password: ${hashedPass}</div>
-                            </div>`
-
-                        
-                        var addButton = $("<button>Add Task</button>")
-
-                        addButton.on("click", () => {
-                            console.log("hwre")
-                        })
-
-                        let addField = `
-                            <div id="add-task-wrapper">
-                                <p>Title</p>
-                                <input class="input-add" id="input-title" type="text">
-                                <p>Priority</p>
-                                <select class="input-add" id="input-priority">
-                                    <option selected>Low</option>
-                                    <option>Medium</option>
-                                    <option>High</option>
-                                </select>
-                                <p>Completed</p>
-                                <input class="input-add" id="input-completed" type="checkbox">
-                                <p>Order</p>
-                                <input class="input-add" id="input-order" type="text">
-                            </div>
-                        `
-
-                        let tasksLine =  `
-                            <div>Tasks:</div>
-                            <div>------------------</div>
-                        `
-                        let finalString = ``
-                        for (let taskIndex = 0; taskIndex < objectData[i]["notes"].length; taskIndex++) {
-                            let currentTask = objectData[i]["notes"][taskIndex]
-                            let currentTitle = currentTask["title"]
-                            let currentPriority = currentTask["priority"]
-                            let currentOrder = currentTask["order"]
-                            let taskIsCompleted = currentTask["completed"]
-
-                            finalString = finalString + `
-                                <div class="task-div-${taskIndex}" class="task-div"">
-                                    <div>Title: ${currentTitle}</div>
-                                    <div>Priority: ${currentPriority}</div>
-                                    <div>Order: ${currentOrder}</div>
-                                    <div>Creation Data: ${new Date().toDateString()}</div>
-                                    <div>Completed 
-                                        <input type="checkbox" id="checkbox-${taskIndex}" class="task-checkbox" ${taskIsCompleted ? 'checked' : ''}/></div>
-                                    <div>----------------</div>
-                                </div>
-                            `
-                        }
-
-                        $(".app-wrapper").css("display", "none")
-                        $(body).prepend(finalString)
-                        $(body).prepend(tasksLine)
-                        $(body).prepend(addButton)
-                        $(body).prepend(addField)
-                        $(".input-add").css("margin-bottom", "10px")
-                        $(body).prepend(startString)
+                        userIndex = i
+                        break
                     
                     } else {
                         console.log("Incorrect Password")
                     }
                 }
             }
+
+            if (userIndex >= 0) {
+                renderTasks(username, hashedPass, userIndex)
+            } 
 
         } else {
             console.log("There is no such username")
