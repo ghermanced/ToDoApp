@@ -1,0 +1,23 @@
+User activity:
+
+// DONE:
+* User logs in
+* The user can see an input field in which they can enter an activity to be done by selecting the priority level
+* The user can mark a task as completed
+
+// DONE PARTIALLY:
+* By pressing enter (or a button), the user can send the planned item to a list and see that it is added to a list of tasks grouped by priority
+* User can see a list of all active to-do items, applying various filters, sorting by date or priority
+* When the browser window is closed, the tasks to be done will be stored and when the user returns, the data will be retrieved
+* The user can see the date on which they created the task
+* User can delete a to-do item by pressing a button (or the to-do item itself), deleted items are kept 30 days from the date of deletion
+
+// TODO:
+* User can edit a to-do
+* User can see a list of all completed to-do tasks
+* User can drag and drop the task to another priority group
+* The user receives a report about the activities planned for this month:
+- the percentage of completion in graphical form,
+- number of days without planned tasks,
+- progress bar with information about the achievement of planned tasks against planned tasks
+- the number of hours needed to complete the task
